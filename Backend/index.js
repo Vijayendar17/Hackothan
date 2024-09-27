@@ -18,4 +18,6 @@ app.use(cors(
 
 app.use("/ai",router)
 
-app.listen(3000, () => console.log('Server started on port 3000'));
+let Port = process.env.Port || 3000;
+
+app.listen(Port, () => console.log('Server started on port 3000'));
