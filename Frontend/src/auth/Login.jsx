@@ -12,7 +12,7 @@ function Login() {
     e.preventDefault();
     setMessage(''); 
     try {
-      const response = await axios.post('http://localhost:3000/ai/login', { email, password });
+      const response = await axios.post('https://geneartive-ai.onrender.com', { email, password });
       
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
