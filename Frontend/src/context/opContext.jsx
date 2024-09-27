@@ -18,7 +18,7 @@ function UserContextProvider({ children }) {
       }
 
       try {
-        const response = await axios.get("https://geneartive-ai.onrender.com", {
+        const response = await axios.get("/api/home", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
