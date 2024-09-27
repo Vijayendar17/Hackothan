@@ -13,7 +13,7 @@ function Signup() {
     e.preventDefault();
     setMessage(''); 
     try {
-      const response = await axios.post('http://localhost:3000/ai/signup', { email, password, name });
+      const response = await axios.post('/signup', { email, password, name });
       
       if (response.status === 201) {
         setMessage('Signup successful!');
