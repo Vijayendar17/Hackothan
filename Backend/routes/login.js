@@ -13,16 +13,20 @@ export const login = async (req, res) => {
 
     if (!user) return res.status(401).send({ message: "Invalid email or password" });
 
-    const isMatch =  bcryptjs.compare(password, user.password);
+    const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) return res.status(401).send({ message: "Invalid email or password" });
 
-    const ipmemail = user.email;
-    const name = user.name;
-    const token = jwt.sign({ name,ipmemail }, process.env.JWT_SECRET);
+    // Generate JWT token
+    const token = jwt.sign({ name: user.name, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    return res.status(200).send({ message: "Logged in successfully", token });
+    // Send the token in the response
+    return res.status(200).send({
+      message: "Logged in successfully",
+      token,  // This is the token you're expecting in the frontend
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Error during login:", error);
     return res.status(500).send({ message: "Server error" });
   }
 };
+
