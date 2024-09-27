@@ -7,24 +7,39 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false); 
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setMessage(''); 
+    setLoading(true);  
+
     try {
       const response = await axios.post('/api/login', { email, password });
       
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
         setMessage('Login successful!');
-        navigate("/");
-
+        setLoading(false); 
+        navigate("/"); 
       } else {
         setMessage('Invalid credentials. Please try again.');
+        setLoading(false);  
       }
     } catch (error) {
-      setMessage('Error logging in. Please try again.'); 
-      console.error(error);
+     
+      if (error.response) {
+       
+        setMessage('Invalid credentials. Please try again.');
+      } else if (error.request) {
+        // The request was made but no response was received (network error)
+        setMessage('Network error. Please check your connection.');
+      } else {
+        // Something else happened while setting up the request
+        setMessage('Error logging in. Please try again.');
+      }
+      console.error("Login error:", error);
+      setLoading(false); 
     }
   };
 
@@ -33,18 +48,7 @@ function Login() {
          style={{ backgroundImage: "url('https://media.istockphoto.com/id/1206796363/photo/ai-machine-learning-hands-of-robot-and-human-touching-on-big-data-network-connection.jpg?s=612x612&w=0&k=20&c=xIX5Bz7h50B83cCZG_gXkyZSOu-mG93DtOcNK7RNEAo=')" }}>
       
       <div className="grid grid-cols-2 gap-4 w-11/12 max-sm:hidden max-md:hidden lg:w-[70%] p-4 min-h-screen">
-        <div className="bg-500 bg-white text-white font-bold text-center p-6 sm:p-8 lg:p-10 rounded-xl shadow-lg animate-float">
-          
-        </div>
-        <div className="bg-500 text-white font-bold text-center p-6 sm:p-8 lg:p-10 rounded-xl shadow-lg animate-float">
-          <img className="h-full w-500 object-cover rounded-md" src="https://www.drcf.org.uk/__data/assets/image/0034/264688/Generative-AI-blog-image.jpg" alt="" />
-        </div>
-        <div className="bg-500 text-white font-bold text-center p-6 sm:p-8 lg:p-10 rounded-xl shadow-lg animate-float">
-          <img className="h-full w-full object-cover rounded-md" src="https://blogs.idc.com/wp-content/uploads/2023/07/July-31-AI-Everywhere-Blog-Header.png" alt="" />
-        </div>
-        <div className="bg--500 text-white font-bold text-center p-6 sm:p-8 lg:p-10 rounded-xl shadow-lg animate-float">
-          <img className="h-full w-full object-cover rounded-md" src="https://www.thompsoncoburn.com/images/default-source/default-album/tech-learning_650x510.jpg?sfvrsn=56ee43ea_0" alt="" />
-        </div>
+        {/* Additional UI components */}
       </div>
 
       <div className="w-full md:w-[40%] h-full flex justify-center items-center">
@@ -64,8 +68,9 @@ function Login() {
                      onChange={(e) => setPassword(e.target.value)} />
             </div>
             <button type="submit" 
-                    className="w-full p-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition duration-300">
-              Login
+                    className={`w-full p-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition duration-300 ${loading ? "opacity-50 cursor-not-allowed" : ""}`} 
+                    disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
         </div>
