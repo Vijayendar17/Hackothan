@@ -8,12 +8,14 @@ function UserContextProvider({ children }) {
     email: "",
     name: "",
   });
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token'); 
       if (!token) {
         console.warn("No token found. User data cannot be fetched.");
+        setLoading(false);
         return; 
       }
 
@@ -32,12 +34,14 @@ function UserContextProvider({ children }) {
             email: Newdata.email,
             name: Newdata.name,
           });
-         
           console.log("Fetched user data:", Newdata);
-          
+        } else {
+          console.warn("No users found in response.");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -49,6 +53,10 @@ function UserContextProvider({ children }) {
     console.log("User state updated:", user);
   }, [user]);
 
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}
@@ -59,3 +67,4 @@ function UserContextProvider({ children }) {
 const useUser = () => useContext(UserContext);
 
 export { UserContextProvider, useUser };
+
