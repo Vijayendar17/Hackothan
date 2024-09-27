@@ -12,7 +12,7 @@ function Login() {
     e.preventDefault();
     setMessage(''); 
     try {
-      const response = await axios.post('/login', { email, password });
+      const response = await axios.post('/api/login', { email, password });
       
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
