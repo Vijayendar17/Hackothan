@@ -19,7 +19,7 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure:true,
       sameSite: 'strict', 
-      maxAge: 3600000, =
+      maxAge: 3600000, 
     });
 
     return res.status(200).send({ message: "Logged in successfully" });
