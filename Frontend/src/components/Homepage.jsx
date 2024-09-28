@@ -36,9 +36,7 @@ function Homepage() {
           <div className="my-12 text-[52px] text-white font-semibold p-5">
           <p>
             <span className="bg-gradient-to-r from-[#368ddd] to-[#ff5546] bg-clip-text text-transparent bg-[length:200%_200%] animate-gradientMove">
-              Hello, <span className='uppercase'>{user.name === "Vijay" ? ` ${user.name} sir` : user.name}
-
-              </span>.
+              Hello User,
             </span>
           </p>
             <p className="text-slate-400 text-[47px] capitalize">
