@@ -15,7 +15,7 @@ function Signup() {
     try {
       const response = await axios.post('/api/signup', { email, password, name });
       
-      if (response.status === 201) {
+      if (response.status === 200) {
         setMessage('Signup successful!');
         navigate('/login');
       } else {
