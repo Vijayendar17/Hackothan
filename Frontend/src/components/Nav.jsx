@@ -3,20 +3,25 @@ import {FaUserCircle,} from "react-icons/fa"
 import {Link} from 'react-router-dom'
 
 function Nav() {
+   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      localStorage.removeItem('token');
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout error', error);
+    }
+  };
+
   return (
-    <div className="flex items-center justify-between text-3xl p-5 text-white">
-        <div>
-        <p className="pl-4  text-[2rem">Generative AI</p>
-        </div>
-        <div>
-          <Link to="/image" className='text-xl capitalize'>Image genrator</Link>
-        </div>
-        <div>
-        <FaUserCircle />
-        </div>
-        
-      </div>
-  )
+    <div>
+      <h1>Profile Page</h1>
+      <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded">
+        Logout
+      </button>
+    </div>
+  );
 }
 
-export default Nav
+
