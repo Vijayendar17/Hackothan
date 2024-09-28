@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 function Nav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [logoutTimer, setLogoutTimer] = useState(5); 
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Remove the token from localStorage
+    
     localStorage.removeItem('token');
     
-    // Redirect to login page
-    navigate('/login');
+   navigate('/login');
   };
+
+  useEffect(() => {
+    let timer;
+    
+    if (isDropdownOpen && logoutTimer > 0) {
+      timer = setInterval(() => {
+        setLogoutTimer(prevTimer => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (logoutTimer === 0) {
+      handleLogout(); 
+    }
+
+    return () => clearInterval(timer); 
+  }, [isDropdownOpen, logoutTimer]);
 
   return (
     <div className="flex items-center justify-between text-3xl p-5 text-white">
@@ -25,8 +41,14 @@ function Nav() {
       </div>
       <div 
         className="relative"
-        onMouseEnter={() => setIsDropdownOpen(true)}
-        onMouseLeave={() => setIsDropdownOpen(false)}
+        onMouseEnter={() => {
+          setIsDropdownOpen(true);
+          setLogoutTimer(5);
+        }}
+        onMouseLeave={() => {
+          setIsDropdownOpen(false);
+          setLogoutTimer(5); 
+        }}
       >
         <FaUserCircle className="cursor-pointer" />
         {isDropdownOpen && (
@@ -37,6 +59,9 @@ function Nav() {
             >
               Logout
             </button>
+            <div className="text-gray-300 text-center">
+              Auto logout in {logoutTimer} {logoutTimer === 1 ? 'second' : 'seconds'}
+            </div>
           </div>
         )}
       </div>
@@ -45,3 +70,4 @@ function Nav() {
 }
 
 export default Nav;
+
