@@ -21,7 +21,6 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', 
       maxAge: 3600000, 
-      sameSite: 'Strict',
     });
 
     return res.status(200).send({ message: "Logged in successfully", token });
