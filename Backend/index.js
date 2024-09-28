@@ -23,13 +23,4 @@ app.listen(Port, () => console.log('Server started on port 3000'));',
   methods: 'GET,POST,PUT,DELETE', 
 }));
 
-app.use("/ai",router)
 
-let Port = process.env.Port || 3000;
-
-
-app.use("/ai",router)
-
-let Port = process.env.Port || 3000;
-
-app.listen(Port, () => console.log('Server started on port 3000'));
