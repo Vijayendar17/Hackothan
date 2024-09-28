@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 
 function Login() {
   const navigate = useNavigate();
@@ -48,7 +48,6 @@ function Login() {
          style={{ backgroundImage: "url('https://media.istockphoto.com/id/1206796363/photo/ai-machine-learning-hands-of-robot-and-human-touching-on-big-data-network-connection.jpg?s=612x612&w=0&k=20&c=xIX5Bz7h50B83cCZG_gXkyZSOu-mG93DtOcNK7RNEAo=')" }}>
       
       <div className="grid grid-cols-2 gap-4 w-11/12 max-sm:hidden max-md:hidden lg:w-[70%] p-4 min-h-screen">
-        {/* Additional UI components */}
       </div>
 
       <div className="w-full md:w-[40%] h-full flex justify-center items-center">
@@ -74,6 +73,7 @@ function Login() {
             </button>
           </form>
         </div>
+        <div><Link to="/signup">signup</Link></div>
       </div>
     </div>
   );
