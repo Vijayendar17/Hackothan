@@ -4,21 +4,22 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate email and password here
+ 
 
     const user = await UserModel.findOne({ email });
     const isMatch = await bcryptjs.compare(password, user.password);
     
     if (!isMatch) return res.status(401).send({ message: "Invalid email or password" });
 
-    // Generate JWT token
+
     const token = jwt.sign({ name: user.name, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    // Set the token as an HTTP-only cookie
+
     res.cookie('token', token, {
       httpOnly: true,
-      secure:true,
-      maxAge: 3600000, 
+      secure: process.env.NODE_ENV === 'production', 
+      maxAge: 36000000,
+      sameSite: 'Strict',
     });
 
     return res.status(200).send({ message: "Logged in successfully" });
@@ -27,3 +28,4 @@ export const login = async (req, res) => {
     return res.status(500).send({ message: "Server error" });
   }
 };
+
